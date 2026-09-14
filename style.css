@@ -16,3 +16,4 @@ p, li { color:#d4d4d8; font-size:16px; }
 a { color:#ff4d57; }
 footer { margin-top:48px; border-top:1px solid var(--border); padding-top:18px; }
 @media (max-width:480px) { h1 { font-size:28px; } nav a { margin-inline-start:10px; font-size:14px; } }
+.card h2:first-child { margin-top:0; }
