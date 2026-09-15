@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>FITMAX · ניהול</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#060606; --card:#121214; --card2:#1a1a1d; --border:#26262a; --border2:#34343a; --red:#E30613; --red2:#FF2A3A; --text:#f5f5f5; --dim:#a1a1aa; --mute:#71717a; --gold:#E8C27A; --ok:#22c55e; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'Heebo',system-ui,Arial,sans-serif; font-size:15px; }
+  button, input, select { font-family:inherit; font-size:14px; }
+  .wrap { max-width:1120px; margin:0 auto; padding:20px 16px 60px; }
+  header { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:18px; }
+  header img { height:36px; }
+  header .who { margin-inline-start:auto; color:var(--dim); font-size:13px; display:flex; gap:10px; align-items:center; }
+  nav { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; border-bottom:1px solid var(--border); }
+  nav button { background:none; border:0; color:var(--dim); padding:10px 14px; cursor:pointer; font-weight:700; border-bottom:2px solid transparent; }
+  nav button.on { color:var(--text); border-color:var(--red); }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px; }
+  .stat .n { font-size:30px; font-weight:900; }
+  .stat .l { color:var(--dim); font-size:13px; }
+  h2 { margin:0 0 12px; font-size:20px; }
+  .btn { background:var(--red); color:#fff; border:0; border-radius:999px; padding:9px 16px; font-weight:800; cursor:pointer; }
+  .btn:hover { background:var(--red2); }
+  .btn.sec { background:var(--card2); border:1px solid var(--border2); color:var(--text); }
+  .btn.sm { padding:5px 11px; font-size:12px; }
+  .btn:disabled { opacity:.4; cursor:default; }
+  input, select { background:var(--bg); color:var(--text); border:1px solid var(--border2); border-radius:10px; padding:9px 11px; }
+  label { display:flex; flex-direction:column; gap:5px; color:var(--dim); font-size:13px; }
+  .row { display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; }
+  .table-wrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:13.5px; }
+  th { text-align:right; color:var(--mute); font-weight:700; padding:8px; border-bottom:1px solid var(--border); white-space:nowrap; }
+  td { padding:9px 8px; border-bottom:1px solid var(--border); vertical-align:middle; }
+  tr:hover td { background:#0e0e10; }
+  .pill { display:inline-block; padding:2px 9px; border-radius:999px; font-size:12px; font-weight:700; background:var(--card2); border:1px solid var(--border2); color:var(--dim); white-space:nowrap; }
+  .pill.red { background:rgba(227,6,19,.14); border-color:rgba(227,6,19,.45); color:#ff6a73; }
+  .pill.gold { background:rgba(232,194,122,.12); border-color:rgba(232,194,122,.4); color:var(--gold); }
+  .pill.ok { background:rgba(34,197,94,.12); border-color:rgba(34,197,94,.4); color:#4ade80; }
+  .muted { color:var(--mute); }
+  .mono { font-family:ui-monospace,Consolas,monospace; letter-spacing:.5px; direction:ltr; unicode-bidi:isolate; }
+  .toast { position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:#1f1f23; border:1px solid var(--border2); padding:10px 18px; border-radius:999px; font-weight:700; z-index:50; }
+  .center { min-height:70vh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; text-align:center; }
+  .gbtn { background:#fff; color:#111; border:0; border-radius:999px; padding:12px 22px; font-weight:800; cursor:pointer; display:flex; align-items:center; gap:10px; }
+  dialog { background:var(--card); color:var(--text); border:1px solid var(--border2); border-radius:18px; padding:20px; max-width:560px; width:92vw; }
+  dialog::backdrop { background:rgba(0,0,0,.7); }
+  .actions { display:flex; gap:6px; flex-wrap:wrap; }
+  .codes { background:var(--bg); border:1px solid var(--border); border-radius:12px; padding:12px; max-height:260px; overflow:auto; line-height:1.9; }
+  .switch { display:flex; align-items:center; gap:10px; }
+  @media (max-width:600px) { .stat .n { font-size:24px; } }
+</style>
+</head>
+<body>
+<div class="wrap" id="app"><div class="center muted">טוען…</div></div>
+<div id="toast" class="toast" hidden></div>
+<dialog id="dlg"></dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.min.js"></script>
+<script>
+const SUPABASE_URL = 'https://amwlcoytipvrbawsejoz.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_6-Vuatxy4397mCz6_7DzIg_L_QkvfRI';
+</script>
+<script src="app.js"></script>
+</body>
+</html>
