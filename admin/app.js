@@ -75,6 +75,7 @@ const TABS = [
   ['users', 'משתמשים'],
   ['trainers', 'מאמנים'],
   ['coupons', 'קופונים'],
+  ['beta', 'בודקים'],
   ['settings', 'הגדרות'],
 ];
 function render() {
@@ -361,5 +362,115 @@ async function settings() {
     });
 }
 
-const VIEWS = { overview, users, trainers, coupons, settings };
+/* ───────── Beta testers (Google Play closed testing) ───────── */
+const BETA_PAGE = 'https://ronosvaro-tech.github.io/fitmax/beta/';
+const WA_TEXT =
+  '💪 אנחנו משיקים את FITMAX, אפליקציית אימונים ותזונה בעברית עם מאמן AI אישי.\n' +
+  'לפני העלייה לחנות אנחנו מחפשים בודקים ראשונים עם טלפון אנדרואיד: גישה מלאה בחינם, בתמורה לשימוש של שבועיים ופידבק.\n' +
+  'להרשמה (30 שניות): ' +
+  BETA_PAGE;
+
+async function copy(text, msg) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast(msg);
+  } catch {
+    prompt('העתקה ידנית:', text);
+  }
+}
+
+async function beta() {
+  const [rows, cfgRes] = await Promise.all([rpc('admin_beta_signups'), sb.from('app_config').select('value').eq('key', 'beta_join_url').maybeSingle()]);
+  const joinUrl = typeof cfgRes.data?.value === 'string' ? cfgRes.data.value : '';
+  const pending = rows.filter((r) => !r.added_to_play);
+  const added = rows.length - pending.length;
+  $main().innerHTML = `
+    <div class="grid" style="margin-bottom:12px">
+      <div class="card stat"><div class="n">${rows.length}</div><div class="l">נרשמו</div></div>
+      <div class="card stat"><div class="n">${added}</div><div class="l">נוספו ל-Google Play</div></div>
+      <div class="card stat"><div class="n" style="color:${pending.length ? 'var(--gold)' : 'inherit'}">${pending.length}</div><div class="l">ממתינים להוספה</div></div>
+      <div class="card stat"><div class="n">${Math.max(0, 12 - added)}</div><div class="l">חסרים למינימום של 12</div></div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <strong>1 · שליחה בוואטסאפ</strong>
+      <div class="codes" style="margin-top:10px;white-space:pre-wrap">${esc(WA_TEXT)}</div>
+      <div class="actions" style="margin-top:10px">
+        <button class="btn" id="copyWa">העתקת ההודעה</button>
+        <a class="btn sec" style="text-decoration:none" href="https://wa.me/?text=${encodeURIComponent(WA_TEXT)}" target="_blank" rel="noopener">שליחה בוואטסאפ</a>
+        <a class="btn sec" style="text-decoration:none" href="${BETA_PAGE}" target="_blank" rel="noopener">צפייה בדף ההרשמה</a>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <strong>2 · הוספה ל-Google Play</strong>
+      <p class="muted" style="margin:6px 0 10px;font-size:13px">Play Console ← Test and release ← Closed testing ← Testers ← רשימת המיילים ← להדביק. אחרי השמירה שם, ללחוץ כאן "סימון הממתינים כנוספו".</p>
+      <div class="actions">
+        <button class="btn" id="copyPending" ${pending.length ? '' : 'disabled'}>העתקת ${pending.length} הממתינים</button>
+        <button class="btn sec" id="markAdded" ${pending.length ? '' : 'disabled'}>סימון הממתינים כנוספו</button>
+        <button class="btn sec" id="copyAll" ${rows.length ? '' : 'disabled'}>העתקת כל ${rows.length} המיילים</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px">
+      <strong>3 · קישור ההצטרפות מ-Google Play</strong>
+      <p class="muted" style="margin:6px 0 10px;font-size:13px">מופיע ב-Closed testing ← Testers ← "Join on the web" אחרי שגוגל מאשרת את הגרסה. ברגע שנשמר, הנרשמים רואים אותו בדף ההרשמה.</p>
+      <div class="row">
+        <input id="joinUrl" class="mono" style="flex:1;min-width:260px" placeholder="https://play.google.com/apps/testing/com.fitmaxfitness.app" value="${esc(joinUrl)}">
+        <button class="btn" id="saveJoin">שמירה</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <strong>נרשמים</strong>
+      <div class="table-wrap" style="margin-top:10px">
+        <table>
+          <thead><tr><th>שם</th><th>אימייל</th><th>נרשם</th><th>סטטוס</th><th></th></tr></thead>
+          <tbody>${
+            rows
+              .map(
+                (r) => `<tr>
+            <td>${esc(r.name)}</td>
+            <td class="mono">${esc(r.email)}</td>
+            <td>${ago(r.created_at)}</td>
+            <td>${r.added_to_play ? '<span class="pill ok">נוסף ל-Play</span>' : '<span class="pill gold">ממתין</span>'}</td>
+            <td class="actions">
+              <button class="btn sec sm" data-toggle="${r.id}" data-added="${r.added_to_play}">${r.added_to_play ? 'החזרה לממתין' : 'סימון כנוסף'}</button>
+              <button class="btn sec sm" data-del="${r.id}" data-email="${esc(r.email)}">מחיקה</button>
+            </td>
+          </tr>`
+              )
+              .join('') || '<tr><td colspan="5" class="muted">עוד אין נרשמים</td></tr>'
+          }</tbody>
+        </table>
+      </div>
+    </div>`;
+
+  document.getElementById('copyWa').onclick = () => copy(WA_TEXT, 'ההודעה הועתקה');
+  document.getElementById('copyPending').onclick = () => copy(pending.map((r) => r.email).join(', '), `${pending.length} מיילים הועתקו`);
+  document.getElementById('copyAll').onclick = () => copy(rows.map((r) => r.email).join(', '), `${rows.length} מיילים הועתקו`);
+  document.getElementById('markAdded').onclick = () =>
+    run(async () => (await rpc('admin_set_beta_added', { p_ids: pending.map((r) => r.id), p_added: true }), toast('סומנו כנוספו'), run(beta)));
+  document.getElementById('saveJoin').onclick = () =>
+    run(async () => {
+      const v = document.getElementById('joinUrl').value.trim();
+      if (v && !/^https:\/\//.test(v)) throw new Error('הקישור חייב להתחיל ב-https://');
+      await rpc('admin_set_config', { p_key: 'beta_join_url', p_value: v || null });
+      toast('נשמר');
+    });
+  $main()
+    .querySelectorAll('[data-toggle]')
+    .forEach((b) => (b.onclick = () => run(async () => (await rpc('admin_set_beta_added', { p_ids: [+b.dataset.toggle], p_added: b.dataset.added !== 'true' }), run(beta)))));
+  $main()
+    .querySelectorAll('[data-del]')
+    .forEach(
+      (b) =>
+        (b.onclick = () => {
+          if (!confirm('למחוק את ' + b.dataset.email + ' מרשימת הנרשמים?')) return;
+          run(async () => (await rpc('admin_delete_beta', { p_id: +b.dataset.del }), toast('נמחק'), run(beta)));
+        })
+    );
+}
+
+const VIEWS = { overview, users, trainers, coupons, beta, settings };
 boot();

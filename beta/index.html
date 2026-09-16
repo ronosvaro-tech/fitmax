@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FITMAX · הצטרפות לבדיקה</title>
+<meta name="description" content="גישה מוקדמת ל-FITMAX: אפליקציית אימונים ותזונה בעברית עם מאמן AI. הצטרפות לבודקים הראשונים.">
+<meta property="og:title" content="FITMAX · גישה מוקדמת">
+<meta property="og:description" content="מחפשים בודקים ראשונים לאפליקציית האימונים והתזונה FITMAX. 30 שניות להרשמה.">
+<meta property="og:image" content="https://ronosvaro-tech.github.io/fitmax/admin/logo.png">
+<meta name="theme-color" content="#060606">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#060606; --card:#121214; --card2:#1a1a1d; --border:#26262a; --border2:#34343a; --red:#E30613; --red2:#FF2A3A; --text:#f5f5f5; --dim:#a1a1aa; --mute:#71717a; --ok:#22c55e; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'Heebo',system-ui,-apple-system,'Segoe UI',Arial,sans-serif; line-height:1.6;
+    background-image:radial-gradient(ellipse at 50% -10%, rgba(227,6,19,.22), transparent 60%); background-repeat:no-repeat; min-height:100vh; }
+  .wrap { max-width:520px; margin:0 auto; padding:28px 18px 56px; }
+  .logo { display:block; height:64px; margin:6px auto 18px; }
+  h1 { font-size:30px; line-height:1.2; margin:0 0 10px; font-weight:900; text-align:center; }
+  h1 span { color:var(--red); }
+  .lead { color:#d4d4d8; text-align:center; margin:0 0 18px; font-size:16.5px; }
+  .count { display:flex; justify-content:center; margin:0 0 18px; }
+  .count b { background:rgba(227,6,19,.14); border:1px solid rgba(227,6,19,.45); color:#ff6a73; border-radius:999px; padding:5px 14px; font-size:14px; font-weight:800; }
+  .card { background:var(--card); border:1px solid var(--border); border-radius:20px; padding:20px; margin-top:14px; }
+  .card h2 { font-size:18px; margin:0 0 10px; }
+  ul.perks { list-style:none; padding:0; margin:0; }
+  ul.perks li { display:flex; gap:10px; padding:6px 0; color:#d4d4d8; font-size:15.5px; }
+  ul.perks li i { font-style:normal; flex:none; }
+  label { display:block; font-weight:700; font-size:14px; margin:14px 0 6px; }
+  input[type=text], input[type=email] { width:100%; background:var(--bg); color:var(--text); border:1px solid var(--border2); border-radius:14px; padding:14px; font:inherit; font-size:16px; }
+  input:focus { outline:none; border-color:var(--red); }
+  input.ltr { direction:ltr; text-align:left; }
+  .hint { color:var(--mute); font-size:13px; margin-top:6px; }
+  .seg { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+  .seg button { background:var(--bg); color:var(--dim); border:1px solid var(--border2); border-radius:14px; padding:13px; font:inherit; font-weight:800; cursor:pointer; }
+  .seg button.on { color:var(--text); border-color:var(--red); background:rgba(227,6,19,.12); }
+  .btn { display:block; width:100%; background:var(--red); color:#fff; border:0; border-radius:999px; padding:16px; font:inherit; font-size:17px; font-weight:900; cursor:pointer; margin-top:20px; text-align:center; text-decoration:none; }
+  .btn:hover { background:var(--red2); }
+  .btn:disabled { opacity:.5; cursor:default; }
+  .err { color:#ff6a73; font-size:14px; margin-top:10px; min-height:1em; text-align:center; }
+  .note { background:var(--card2); border:1px solid var(--border2); border-radius:14px; padding:12px 14px; color:#d4d4d8; font-size:14.5px; margin-top:12px; }
+  ol.steps { padding-inline-start:0; list-style:none; counter-reset:s; margin:0; }
+  ol.steps li { counter-increment:s; display:flex; gap:12px; padding:9px 0; color:#d4d4d8; font-size:15.5px; }
+  ol.steps li::before { content:counter(s); flex:none; width:28px; height:28px; border-radius:50%; background:var(--red); color:#fff; font-weight:900; display:grid; place-items:center; font-size:14px; }
+  .ok { text-align:center; }
+  .ok .big { font-size:52px; line-height:1; }
+  .hp { position:absolute; left:-9999px; }
+  footer { text-align:center; color:var(--mute); font-size:13px; margin-top:28px; }
+  footer a { color:var(--dim); }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img class="logo" src="../admin/logo.png" alt="FITMAX">
+  <h1>גישה מוקדמת ל-<span>FITMAX</span></h1>
+  <p class="lead">אפליקציית אימונים ותזונה בעברית עם מאמן AI אישי. לפני שאנחנו עולים לחנות, אנחנו מחפשים את הבודקים הראשונים.</p>
+  <div class="count" id="countWrap" hidden><b id="count"></b></div>
+
+  <section id="formView">
+    <div class="card">
+      <h2>מה מקבלים</h2>
+      <ul class="perks">
+        <li><i>💪</i>תוכנית אימונים ותפריט אישי לפי המטרה שלך</li>
+        <li><i>🤖</i>מאמן AI בעברית שמכיר את התוכנית שלך</li>
+        <li><i>📸</i>מעקב קלוריות בצילום ומאגר של 4,600 מאכלים ישראליים</li>
+        <li><i>🎁</i>גישה מלאה בחינם לכל תקופת הבדיקה</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>מה מבקשים</h2>
+      <ul class="perks">
+        <li><i>📱</i>טלפון אנדרואיד</li>
+        <li><i>🗓️</i>להשתמש באפליקציה כמה פעמים בשבוע, במשך 14 יום</li>
+        <li><i>💬</i>לספר לנו מה עבד ומה לא</li>
+      </ul>
+    </div>
+
+    <form class="card" id="form" novalidate>
+      <h2>הרשמה (30 שניות)</h2>
+      <label>סוג הטלפון</label>
+      <div class="seg" id="device">
+        <button type="button" data-v="android" class="on">אנדרואיד</button>
+        <button type="button" data-v="iphone">אייפון</button>
+      </div>
+      <div class="note" id="iphoneNote" hidden>כרגע הבדיקה פתוחה רק לטלפוני אנדרואיד. גרסת אייפון בדרך, ונשמח שתצטרפו אז 🙏</div>
+
+      <div id="fields">
+        <label for="name">שם מלא</label>
+        <input type="text" id="name" autocomplete="name" maxlength="80" required>
+
+        <label for="email">כתובת Gmail</label>
+        <input type="email" id="email" class="ltr" autocomplete="email" inputmode="email" maxlength="120" placeholder="name@gmail.com" required>
+        <div class="hint">חשוב: חשבון ה-Google שמחובר ל-Google Play בטלפון שלך.</div>
+
+        <input type="text" id="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn" id="submit" type="submit">אני רוצה להצטרף</button>
+        <div class="err" id="err" role="alert"></div>
+      </div>
+    </form>
+  </section>
+
+  <section id="doneView" hidden>
+    <div class="card ok">
+      <div class="big">🎉</div>
+      <h2 style="margin-top:10px" id="doneTitle">נרשמת בהצלחה!</h2>
+      <p style="color:#d4d4d8;margin:0" id="doneText">נוסיף את הכתובת שלך לרשימת הבודקים.</p>
+      <a href="#" id="another" style="display:inline-block;margin-top:12px;color:var(--dim);font-size:14px">לרשום אדם נוסף</a>
+    </div>
+  </section>
+
+  <section id="joinView" hidden>
+    <div class="card">
+      <h2>איך מתקינים</h2>
+      <ol class="steps">
+        <li>פותחים את הקישור <b>מהטלפון</b>, מחוברים לאותו Gmail שנרשמתם איתו</li>
+        <li>לוחצים <b>Become a tester</b> (הצטרפות כבודק)</li>
+        <li>לוחצים <b>Download it on Google Play</b> ומתקינים</li>
+        <li>משתמשים באפליקציה לפחות 14 יום, ולא יוצאים מהבדיקה 💪</li>
+      </ol>
+      <a class="btn" id="joinBtn" href="#" target="_blank" rel="noopener">להצטרפות לבדיקה ב-Google Play</a>
+      <div class="note">מופיע "האפליקציה לא זמינה"? כנראה עוד לא הוספנו את הכתובת שלך. זה קורה תוך 24 שעות מההרשמה, נסו שוב אחר כך.</div>
+    </div>
+  </section>
+
+  <section id="waitView" hidden>
+    <div class="card">
+      <h2>מה הלאה</h2>
+      <ol class="steps">
+        <li>אנחנו מוסיפים את הכתובת שלך לרשימת הבודקים</li>
+        <li>ברגע ש-Google מאשרת את הגרסה, קישור ההתקנה יופיע <b>בדף הזה</b> וגם בקבוצת הוואטסאפ</li>
+        <li>מתקינים ומשתמשים לפחות 14 יום 💪</li>
+      </ol>
+      <div class="note">שמרו את הקישור לדף הזה כדי לחזור אליו.</div>
+    </div>
+  </section>
+
+  <footer>
+    המידע משמש רק להוספה לרשימת הבודקים ב-Google Play · <a href="../privacy.html">מדיניות פרטיות</a><br>
+    שאלות? <a href="mailto:ronosvaro@gmail.com">ronosvaro@gmail.com</a>
+  </footer>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://amwlcoytipvrbawsejoz.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_6-Vuatxy4397mCz6_7DzIg_L_QkvfRI';
+const H = { apikey: SUPABASE_KEY, Authorization: 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json' };
+const $ = (id) => document.getElementById(id);
+const DONE_KEY = 'fitmax-beta-signed';
+let joinUrl = null;
+
+function store(get, val) {
+  try { return get ? localStorage.getItem(DONE_KEY) : localStorage.setItem(DONE_KEY, val); } catch { return null; }
+}
+
+async function loadCount() {
+  try {
+    const r = await fetch(SUPABASE_URL + '/rest/v1/rpc/beta_signup_count', { method: 'POST', headers: H, body: '{}' });
+    const n = await r.json();
+    if (typeof n === 'number' && n >= 3) { $('count').textContent = `${n} כבר נרשמו`; $('countWrap').hidden = false; }
+  } catch {}
+}
+
+async function loadJoinUrl() {
+  try {
+    const r = await fetch(SUPABASE_URL + '/rest/v1/app_config?key=eq.beta_join_url&select=value', { headers: H });
+    const rows = await r.json();
+    const v = rows?.[0]?.value;
+    if (typeof v === 'string' && /^https:\/\//.test(v)) joinUrl = v;
+  } catch {}
+}
+
+function showNext(alreadySigned) {
+  if (alreadySigned) {
+    $('formView').hidden = true;
+    $('doneView').hidden = false;
+  }
+  if (joinUrl) {
+    $('joinBtn').href = joinUrl;
+    $('joinView').hidden = false;
+    $('waitView').hidden = true;
+  } else if (alreadySigned) {
+    $('waitView').hidden = false;
+  }
+}
+
+// Device toggle: iPhone users can't join an Android test yet.
+let device = 'android';
+$('device').querySelectorAll('button').forEach((b) => (b.onclick = () => {
+  device = b.dataset.v;
+  $('device').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
+  $('iphoneNote').hidden = device !== 'iphone';
+  $('fields').hidden = device === 'iphone';
+}));
+
+$('another').onclick = (e) => {
+  e.preventDefault();
+  $('name').value = '';
+  $('email').value = '';
+  $('doneTitle').textContent = 'נרשמת בהצלחה!';
+  $('doneText').textContent = 'נוסיף את הכתובת שלך לרשימת הבודקים.';
+  ['doneView', 'waitView', 'joinView'].forEach((id) => ($(id).hidden = true));
+  $('formView').hidden = false;
+};
+
+$('form').onsubmit = async (e) => {
+  e.preventDefault();
+  if ($('website').value) return; // honeypot
+  const name = $('name').value.trim();
+  const email = $('email').value.trim().toLowerCase();
+  $('err').textContent = '';
+  if (name.length < 2) return ($('err').textContent = 'נא למלא שם מלא');
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return ($('err').textContent = 'כתובת האימייל לא תקינה');
+  $('submit').disabled = true;
+  $('submit').textContent = 'שולח…';
+  try {
+    const r = await fetch(SUPABASE_URL + '/rest/v1/beta_signups', { method: 'POST', headers: { ...H, Prefer: 'return=minimal' }, body: JSON.stringify({ name, email }) });
+    if (r.status === 409) {
+      $('doneTitle').textContent = 'כבר נרשמת 👍';
+      $('doneText').textContent = 'הכתובת הזאת כבר ברשימת הבודקים.';
+    } else if (!r.ok) {
+      throw new Error(String(r.status));
+    } else if (!email.endsWith('@gmail.com')) {
+      $('doneText').textContent = 'נוסיף את הכתובת לרשימת הבודקים. ודאו שזה חשבון ה-Google שמחובר ל-Google Play בטלפון.';
+    }
+    store(false, email);
+    showNext(true);
+    loadCount();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch {
+    $('err').textContent = 'משהו השתבש. נסו שוב בעוד רגע.';
+  } finally {
+    $('submit').disabled = false;
+    $('submit').textContent = 'אני רוצה להצטרף';
+  }
+};
+
+(async () => {
+  await Promise.all([loadJoinUrl(), loadCount()]);
+  showNext(!!store(true));
+})();
+</script>
+</body>
+</html>
