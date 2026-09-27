@@ -20,7 +20,28 @@
 <li>מעקב מים ומשקל, ולוח מאמן למאמני כושר</li>
 </ul>
 </div>
-<p class="muted" style="margin-top:22px">בקרוב ב-Google Play · יצירת קשר: <a href="mailto:ronosvaro@gmail.com">ronosvaro@gmail.com</a></p>
+<div class="card" id="get">
+<h2>להורדה</h2>
+<p>האפליקציה חינמית לגמרי בתקופת ההשקה — כל התכונות פתוחות, בלי מנוי ובלי פרסומות.</p>
+<p><a class="btn" href="https://apps.apple.com/il/app/id6815541225">הורדה לאייפון</a></p>
+<p class="muted" id="android-note">אנדרואיד: האפליקציה בבדיקה סגורה לקראת ההשקה — <a href="beta/">הצטרפות לבודקים</a>.</p>
+</div>
+
+<script>
+// One link goes out to everyone, so the page sends each visitor where they can actually install.
+// An iPhone owner who lands on a Play link has hit a dead end, and so has the friend who sent it.
+(function () {
+  var ua = navigator.userAgent || '';
+  if (/Android/i.test(ua)) {
+    var btn = document.querySelector('#get .btn');
+    btn.textContent = 'הצטרפות לבודקים באנדרואיד';
+    btn.href = 'beta/';
+    document.getElementById('android-note').innerHTML = 'אייפון: <a href="https://apps.apple.com/il/app/id6815541225">להורדה ב-App Store</a>.';
+  }
+})();
+</script>
+
+<p class="muted" style="margin-top:22px">יצירת קשר: <a href="mailto:ronosvaro@gmail.com">ronosvaro@gmail.com</a></p>
 <footer class="muted">© 2026 FITMAX · <a href="privacy.html">מדיניות פרטיות</a> · <a href="terms.html">תנאי שימוש</a></footer>
 </div></body>
 </html>
